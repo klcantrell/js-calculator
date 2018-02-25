@@ -223,3 +223,51 @@ body {
   transform: rotateY(90deg) translateZ(162px);
   -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(90deg) translateZ(162px);
 }
+
+@media screen and (max-width: 400px) {
+  .scene {
+    width: 245.5px;
+    height: 375px;
+  }
+
+  .object .front-side, .object .back-side {
+    width: 243px;
+    height: 373.5px;
+  }
+
+  .left-side p {
+    line-height: initial;
+  }
+
+  .right-side #plus, .right-side #equals {
+    line-height: initial;
+  }
+
+  .object .left-side-3D, .object .right-side-3D {
+    height: 298.5px;
+    width: 30px;
+    left: 106.5px;
+    top: 37.5px;
+  }
+
+  .object .left-side-3D {
+    transform: rotateY(-90deg) translateZ(121.5px);
+    -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(-90deg) translateZ(121.5px);
+  }
+
+  .object .right-side-3D {
+    transform: rotateY(90deg) translateZ(121.5px);
+    -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(90deg) translateZ(121.5px);
+  }
+
+  .object .front-side {
+    transform: rotateY(0deg) translateZ(15px);
+    -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(0deg) translateZ(15px);
+    border-radius: 2rem;
+  }
+
+  .object .back-side {
+    transform: rotateY(0deg) translateZ(-15px);
+    -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(0deg) translateZ(-15px);
+  }
+}
