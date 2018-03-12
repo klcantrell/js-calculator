@@ -1,169 +1,145 @@
 (function(){
 
+  window.addEventListener('DOMContentLoaded', init);
+
   function init(){
-    buttonHandlers();
-    calculator3DBehavior();
+    view.init();
   }
 
-  window.addEventListener('load', init);
-
-  // CALCULATION LOGIC
-
-  let calc = {
+  const calculator = {
     currentNum: '0',
     memory: '',
     evalQueue: '',
     equalsPressed: false,
     opPressed: true,
     procInput: function(input){
-                 if (input.classList.contains('clear')) {
-                   view.clear();
-                 } else if (input.classList.contains('number')) {
-                   view.displayNumInput(input);
-                 } else {
-                   view.displayOpResult(input);
-                 }
-               },
+     if (input.classList.contains('clear')) {
+       view.clear();
+     } else if (input.classList.contains('number')) {
+       view.displayNumInput(input);
+     } else {
+       view.displayOpResult(input);
+     }
+    },
     procNumInput: function(num){
-                    if (this.equalsPressed) {
-                      view.clear();
-                    }
-                    if (this.opPressed) {
-                      this.opPressed = false;
-                    }
-                    if (this.currentNum === '0') {
-                      this.currentNum = num;
-                    } else {
-                      this.currentNum = `${this.currentNum}${num}`;
-                    }
-                  },
+      if (this.equalsPressed) {
+        view.clear();
+      }
+      if (this.opPressed) {
+        this.opPressed = false;
+      }
+      if (this.currentNum === '0') {
+        this.currentNum = num;
+      } else {
+        this.currentNum = `${this.currentNum}${num}`;
+      }
+    },
     procOpInput: function(op){
-                    if (op === '=') {
-                      this.procEqualsPressed();
-                    } else {
-                      if (!calc.opPressed) {
-                        if (op === 'X'){
-                          this.procMultPressed(op);
-                        } else {
-                          this.procSumDiffDiv(op);
-                       }
-                     }
-                   }
-                 },
+      if (op === '=') {
+        this.procEqualsPressed();
+      } else {
+        if (!calculator.opPressed) {
+          if (op === 'X'){
+            this.procMultPressed(op);
+          } else {
+            this.procSumDiffDiv(op);
+         }
+       }
+     }
+    },
     procEqualsPressed: function(){
-                        this.memory = this.evalQueue ? math.round(eval(`${this.evalQueue}${this.currentNum}`), 5) : this.currentNum;
-                        this.evalQueue = ``;
-                        this.currentNum = this.memory;
-                        this.equalsPressed = true;
-                      },
+      this.memory = this.evalQueue ? math.round(eval(`${this.evalQueue}${this.currentNum}`), 5) : this.currentNum;
+      this.evalQueue = ``;
+      this.currentNum = this.memory;
+      this.equalsPressed = true;
+    },
     procMultPressed: function(op){
-                        if (this.equalsPressed) {
-                          this.equalsPressed = false;
-                        }
-                        this.memory = this.evalQueue ? math.round(eval(`${this.evalQueue}${this.currentNum}`), 5) : this.currentNum;
-                        this.evalQueue = `${this.evalQueue} ${this.currentNum}\*`;
-                        this.currentNum = '0';
-                        this.opPressed = true;
-                     },
+      if (this.equalsPressed) {
+        this.equalsPressed = false;
+      }
+      this.memory = this.evalQueue ? math.round(eval(`${this.evalQueue}${this.currentNum}`), 5) : this.currentNum;
+      this.evalQueue = `${this.evalQueue} ${this.currentNum}\*`;
+      this.currentNum = '0';
+      this.opPressed = true;
+    },
     procSumDiffDiv: function(op){
-                        if (this.equalsPressed) {
-                          this.equalsPressed = false;
-                        }
-                        this.memory = this.evalQueue ? math.round(eval(`${this.evalQueue}${this.currentNum}`), 5) : this.currentNum;
-                        this.evalQueue = `${this.evalQueue} ${this.currentNum} ${op}`;
-                        this.currentNum = '0';
-                        this.opPressed = true;
-                     }
+      if (this.equalsPressed) {
+        this.equalsPressed = false;
+      }
+      this.memory = this.evalQueue ? math.round(eval(`${this.evalQueue}${this.currentNum}`), 5) : this.currentNum;
+      this.evalQueue = `${this.evalQueue} ${this.currentNum} ${op}`;
+      this.currentNum = '0';
+      this.opPressed = true;
+    }
   };
 
-  let view = {
-    isMobile: (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1),
+  const view = {
+    isMobile: (typeof window.orientation !== "undefined") ||
+      (navigator.userAgent.indexOf('IEMobile') !== -1),
     calculator: $(".object"),
     body: $("body"),
     output: document.querySelector("#output"),
     clickables: document.querySelectorAll('.nums-ops p'),
     queue: document.querySelector("#queue"),
     adjustTextSize: function(el){
-                      if (calc.memory.toString().length > 17 || calc.currentNum.length > 17) {
-                        el.style['font-size'] = '1.2em';
-                      } else if (calc.memory.toString().length > 10 || calc.currentNum.length > 10) {
-                        el.style['font-size'] = '2em';
-                      } else {
-                        el.style['font-size'] = '3em';
-                      }
-                    },
+      if (calculator.memory.toString().length > 17 || calculator.currentNum.length > 17) {
+        el.style['font-size'] = '1.2em';
+      } else if (calculator.memory.toString().length > 10 || calculator.currentNum.length > 10) {
+        el.style['font-size'] = '2em';
+      } else {
+        el.style['font-size'] = '3em';
+      }
+    },
     addCalcListeners: function(clickable){
-                        if (this.isMobile) {
-                          clickable.addEventListener('touchend', function(){
-                            calc.procInput(clickable);
-                          });
-                        } else {
-                          clickable.addEventListener('click', function(){
-                            calc.procInput(clickable);
-                          });
-                        }
-                      },
+      if (this.isMobile) {
+        clickable.addEventListener('touchend', function(){
+          calculator.procInput(clickable);
+        });
+      } else {
+        clickable.addEventListener('click', function(){
+          calculator.procInput(clickable);
+        });
+      }
+    },
     displayNumInput: function(num){
-                        calc.procNumInput(num.textContent);
-                        this.adjustTextSize(this.output);
-                        this.output.textContent = calc.currentNum;
-                     },
+      calculator.procNumInput(num.textContent);
+      this.adjustTextSize(this.output);
+      this.output.textContent = calculator.currentNum;
+    },
     clear: function(){
-                    calc.currentNum = '0';
-                    this.output.textContent = calc.currentNum;
-                    calc.evalQueue = '';
-                    this.queue.textContent = calc.evalQueue;
-                    calc.memory = '';
-                    calc.equalsPressed = false;
-                    calc.opPressed = true;
-                    this.adjustTextSize(this.output);
-           },
+      calculator.currentNum = '0';
+      this.output.textContent = calculator.currentNum;
+      calculator.evalQueue = '';
+      this.queue.textContent = calculator.evalQueue;
+      calculator.memory = '';
+      calculator.equalsPressed = false;
+      calculator.opPressed = true;
+      this.adjustTextSize(this.output);
+    },
     displayOpResult: function(op) {
-                        calc.procOpInput(op.textContent);
-                        this.adjustTextSize(this.output);
-                        calc.memory ? this.output.textContent = calc.memory : this.output.textContent = '0';
-                        this.queue.textContent = calc.evalQueue;
-                     }
-  };
-
-
-
-  // STYLE BEHAVIOR
-
-  function calculator3DBehavior(){
-    view.calculator.on('touchstart', function(e){
-        $(this).css('translateZ(50px) rotateY(0deg) rotateZ(0deg)');
-        e.stopPropagation();
-    });
-    view.body.on('touchstart', function(e){
-      view.calculator.css('translateZ(50px) rotateY(45deg) rotateZ(20deg)');
-    });
-  }
-
-       //includes handler that points to calc logic
-  function buttonHandlers(){
-    for (let i = 0; i < view.clickables.length; i++){
-      buttonStyleBehavior(view.clickables[i]);
-      view.addCalcListeners(view.clickables[i]);  
+      calculator.procOpInput(op.textContent);
+      this.adjustTextSize(this.output);
+      calculator.memory ? this.output.textContent = calculator.memory : this.output.textContent = '0';
+      this.queue.textContent = calculator.evalQueue;
+    },
+    mobile3DBehavior: function() {
+      this.calculator.on('touchstart', function(e) {
+          $(this).css('translateZ(50px) rotateY(0deg) rotateZ(0deg)');
+          e.stopPropagation();
+      });
+      this.body.on('touchstart', function(e) {
+        view.calculator.css('translateZ(50px) rotateY(45deg) rotateZ(20deg)');
+      });
+    },
+    bindEvents: function() {
+      for (let i = 0; i < this.clickables.length; i++){
+        this.addCalcListeners(this.clickables[i]);
+      }
+    },
+    init: function() {
+      this.mobile3DBehavior();
+      this.bindEvents();
     }
-  }
-
-  function buttonStyleBehavior(clickable){
-    clickable.addEventListener('mousedown', function(event){
-      event.target.style.opacity = 0.3;
-    });
-    clickable.addEventListener('mouseup', function(event){
-      event.target.style.opacity = 1;
-    });
-    clickable.addEventListener('mouseleave', function(event){
-      event.target.style.opacity = 1;
-    });
-    clickable.addEventListener('touchstart', function(event){
-      event.target.style.opacity = 0.3;
-    });
-    clickable.addEventListener('touchend', function(event){
-      event.target.style.opacity = 1;
-    });
-  }
+  };
 
 })();
