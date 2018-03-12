@@ -48,7 +48,8 @@
      }
     },
     procEqualsPressed: function(){
-      this.memory = this.evalQueue ? math.round(eval(`${this.evalQueue}${this.currentNum}`), 5) : this.currentNum;
+      this.memory = this.evalQueue ? this.round(eval(`${this.evalQueue}${this.currentNum}`)) :
+        this.currentNum;
       this.evalQueue = ``;
       this.currentNum = this.memory;
       this.equalsPressed = true;
@@ -57,7 +58,8 @@
       if (this.equalsPressed) {
         this.equalsPressed = false;
       }
-      this.memory = this.evalQueue ? math.round(eval(`${this.evalQueue}${this.currentNum}`), 5) : this.currentNum;
+      this.memory = this.evalQueue ? this.round(eval(`${this.evalQueue}${this.currentNum}`)) :
+        this.currentNum;
       this.evalQueue = `${this.evalQueue} ${this.currentNum}\*`;
       this.currentNum = '0';
       this.opPressed = true;
@@ -66,10 +68,15 @@
       if (this.equalsPressed) {
         this.equalsPressed = false;
       }
-      this.memory = this.evalQueue ? math.round(eval(`${this.evalQueue}${this.currentNum}`), 5) : this.currentNum;
+      this.memory = this.evalQueue ?
+        this.round(eval(`${this.evalQueue}${this.currentNum}`)) :
+          this.currentNum;
       this.evalQueue = `${this.evalQueue} ${this.currentNum} ${op}`;
       this.currentNum = '0';
       this.opPressed = true;
+    },
+    round: function(num) {
+      return (Math.round(num * 100000) / 100000);
     }
   };
 
@@ -132,7 +139,7 @@
         });
         this.body.addEventListener('touchstart', function(e) {
           view.calculator.style.transform = "translateZ(50px) rotateY(45deg) rotateZ(20deg)";
-        });  
+        });
       }
     },
     bindEvents: function() {
