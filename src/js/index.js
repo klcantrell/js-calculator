@@ -76,11 +76,13 @@
   const view = {
     isMobile: (typeof window.orientation !== "undefined") ||
       (navigator.userAgent.indexOf('IEMobile') !== -1),
-    calculator: $(".object"),
-    body: $("body"),
-    output: document.querySelector("#output"),
-    clickables: document.querySelectorAll('.nums-ops p'),
-    queue: document.querySelector("#queue"),
+    body: document.querySelector('body'),
+    cacheDom: function() {
+      this.calculator = this.body.querySelector('#calculator');
+      this.output = this.calculator.querySelector("#output");
+      this.clickables = this.calculator.querySelectorAll('.nums-ops p');
+      this.queue = this.calculator.querySelector("#queue");
+    },
     adjustTextSize: function(el){
       if (calculator.memory.toString().length > 17 || calculator.currentNum.length > 17) {
         el.style['font-size'] = '1.2em';
@@ -123,13 +125,15 @@
       this.queue.textContent = calculator.evalQueue;
     },
     mobile3DBehavior: function() {
-      this.calculator.on('touchstart', function(e) {
-          $(this).css('translateZ(50px) rotateY(0deg) rotateZ(0deg)');
-          e.stopPropagation();
-      });
-      this.body.on('touchstart', function(e) {
-        view.calculator.css('translateZ(50px) rotateY(45deg) rotateZ(20deg)');
-      });
+      if (this.isMobile) {
+        this.calculator.addEventListener('touchstart', function(e) {
+            e.currentTarget.style.transform = "translateZ(50px) rotateY(0deg) rotateZ(0deg)";
+            e.stopPropagation();
+        });
+        this.body.addEventListener('touchstart', function(e) {
+          view.calculator.style.transform = "translateZ(50px) rotateY(45deg) rotateZ(20deg)";
+        });  
+      }
     },
     bindEvents: function() {
       for (let i = 0; i < this.clickables.length; i++){
@@ -137,6 +141,7 @@
       }
     },
     init: function() {
+      this.cacheDom();
       this.mobile3DBehavior();
       this.bindEvents();
     }
