@@ -43,6 +43,11 @@ const calculator = {
    }
   },
   procEqualsPressed: function(){
+    if (this.opPressed) {
+      this.opPressed = false;
+      this.evalQueue = '0 +';
+      this.currentNum = this.memory;
+    }
     this.memory = this.evalQueue ? this.round(eval(`${this.evalQueue}${this.currentNum}`)) :
       this.currentNum;
     this.evalQueue = ``;
