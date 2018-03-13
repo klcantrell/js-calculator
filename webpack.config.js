@@ -1,4 +1,5 @@
 const path = require('path'),
+      ImageminPlugin = require('imagemin-webpack-plugin').default,
       HtmlWebpackPlugin = require('html-webpack-plugin'),
       MinifyPlugin = require("babel-minify-webpack-plugin");
 
@@ -8,6 +9,7 @@ module.exports = {
 	},
 	output: {
 		path: path.join(__dirname, 'dist'),
+    publicPath: 'https://s3.us-east-2.amazonaws.com/kals-js-calculator/',
 		filename: "[name].bundle.js"
 	},
 	module: {
@@ -16,15 +18,15 @@ module.exports = {
 	      test: /\.js$/,
 	      exclude: /node_modules/,
 	      use: {
-	        loader: 'babel-loader',
-	        options: {
-	          presets: [
-	            ['env', {
-	            	modules: false
-	            }]
-	          ]
-	        }
-	      }
+            loader: 'babel-loader',
+  	        options: {
+  	          presets: [
+  	            ['env', {
+  	            	modules: false
+  	            }]
+  	          ]
+  	        }
+        }
 	    },
       {
         test: /\.css$/,
@@ -32,7 +34,8 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: '[name].[ext]'
+              name: '[name].[ext]',
+              publicPath: path.join(__dirname + 'dist')
             }
           },
           'extract-loader',
@@ -47,8 +50,9 @@ module.exports = {
       {
         test: /\.(png|jpg|gif)$/,
         use: {
-          loader: 'file-loader',
+          loader: 'responsive-loader',
           options: {
+            name: '[name]-[width].[ext]'
           }
         }
       }
@@ -56,10 +60,12 @@ module.exports = {
 	},
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'index.html'
+      template: 'index.html',
+      inject: false
+    }),
+    new ImageminPlugin({test: /\.(png|jpg|gif)$/}),
+    new MinifyPlugin({}, {
+      exclude: /node_modules/
     })
-    // new MinifyPlugin({}, {
-    //   exclude: /node_modules/
-    // })
   ]
 }

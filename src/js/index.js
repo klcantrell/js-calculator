@@ -4,7 +4,7 @@ import '../css/style.css';
 
 function init() {
   view.init(calculator);
-  calculator.init(view);
+  calculator.init(view)
 }
 
 window.addEventListener('DOMContentLoaded', init);
