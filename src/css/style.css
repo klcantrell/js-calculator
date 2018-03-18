@@ -175,7 +175,7 @@ body {
   -ms-transform: translateZ(50px) rotateY(0deg) rotateZ(0deg) rotateY(-90deg) translateZ(162px);
 }
 .object:hover .right-side-3D {
-  -ms-transform: translateZ(50px) rotateY(0deg) rotateZ(0deg) rotateY(90deg) translateZ(162px);
+  -ms-transform: translateZ(50px) rotateY(0deg) rotateZ(0deg) rotateY(90deg) translateZ(165px);
 }
 /* Hover for IE end */
 
@@ -222,8 +222,8 @@ body {
 }
 
 .object .right-side-3D {
-  transform: rotateY(90deg) translateZ(162px);
-  -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(90deg) translateZ(162px);
+  transform: rotateY(90deg) translateZ(165px);
+  -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(90deg) translateZ(165px);
 }
 
 @media screen and (max-width: 400px) {
@@ -258,8 +258,8 @@ body {
   }
 
   .object .right-side-3D {
-    transform: rotateY(90deg) translateZ(121.5px);
-    -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(90deg) translateZ(121.5px);
+    transform: rotateY(90deg) translateZ(125px);
+    -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(90deg) translateZ(125px);
   }
 
   .object .front-side {
@@ -272,4 +272,20 @@ body {
     transform: rotateY(0deg) translateZ(-15px);
     -ms-transform: translateZ(50px) rotateY(45deg) rotateZ(20deg) rotateY(0deg) translateZ(-15px);
   }
+
+
+  /* Hover for IE start */
+  .object:hover .front-side {
+    -ms-transform:  translateZ(50px) rotateY(0deg) rotateZ(0deg) translateZ(20px);
+  }
+  .object:hover .back-side {
+    -ms-transform: translateZ(50px) rotateY(0deg) rotateZ(0deg) translateZ(-20px);
+  }
+  .object:hover .left-side-3D {
+    -ms-transform: translateZ(50px) rotateY(0deg) rotateZ(0deg) rotateY(-90deg) translateZ(121.5px);
+  }
+  .object:hover .right-side-3D {
+    -ms-transform: translateZ(50px) rotateY(0deg) rotateZ(0deg) rotateY(90deg) translateZ(125px);
+  }
+  /* Hover for IE end */
 }

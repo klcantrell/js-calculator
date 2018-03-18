@@ -9,7 +9,7 @@ module.exports = {
 	},
 	output: {
 		path: path.join(__dirname, 'dist'),
-    publicPath: 'https://s3.us-east-2.amazonaws.com/kals-js-calculator/',
+    publicPath: 'https://s3.us-east-2.amazonaws.com/kals-portfolio-assets/js-calculator/images/',
 		filename: "[name].bundle.js"
 	},
 	module: {
