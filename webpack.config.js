@@ -1,7 +1,7 @@
 const path = require('path'),
       ImageminPlugin = require('imagemin-webpack-plugin').default,
       HtmlWebpackPlugin = require('html-webpack-plugin'),
-      MinifyPlugin = require("babel-minify-webpack-plugin");
+      MinifyPlugin = require('babel-minify-webpack-plugin');
 
 module.exports = {
 	entry: {
@@ -42,9 +42,11 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
+              importLoaders: 1,
               minimize: true
             }
-          }
+          },
+          'postcss-loader'
         ]
       },
       {
@@ -61,7 +63,15 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'index.html',
-      inject: false
+      inject: false,
+      minify: {
+        removeAttributeQuotes: true,
+        collapseWhitespace: true,
+        html5: true,
+        minifyCSS: true,
+        removeComments: true,
+        removeEmptyAttributes: true
+      }
     }),
     new ImageminPlugin({test: /\.(png|jpg|gif)$/}),
     new MinifyPlugin({}, {
