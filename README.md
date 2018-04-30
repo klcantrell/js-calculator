@@ -1,6 +1,5 @@
 # K-Calc
-
-A 3D calculator from the future for all your computation needs.
+### A 3D calculator from the future for all your computation needs.
 
 This is a calculator that uses pure JavaScript for computation and memory. As soon as you hover over the calculator (or tap on it if on mobile), you experience a bit of fun 3D delight as it rotates in before you need to get to the number crunching.
 
