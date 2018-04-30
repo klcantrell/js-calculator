@@ -11,7 +11,7 @@ User can:
 
 Tech Highlights:
 
-*Used **CSS 3D transforms** for the rotation action
+* Used **CSS 3D transforms** for the rotation action
 
 #### Visit the site!
 #### https://k-calc.surge.sh/
